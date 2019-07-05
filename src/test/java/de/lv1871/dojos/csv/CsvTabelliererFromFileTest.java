@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 class CsvTabelliererFromFileTest {
     private CsvTabellierer tabellierer = new CsvTabellierer();
 
-    @Test
+    //@Test
     void sanityTest() throws IOException {
         // given
         Charset utf8 = StandardCharsets.UTF_8;
@@ -23,7 +24,7 @@ class CsvTabelliererFromFileTest {
         List<String> expected = Files
                 .readAllLines(Paths.get("src/test/resources/example-expected.txt"), utf8);
         // when
-        List<String> result = tabellierer.tabelliere(eingabeZeilen);
+        List<String> result = new ArrayList<>(tabellierer.tabelliere(eingabeZeilen));
         // then
         assertLinesMatch(expected, result);
     }
