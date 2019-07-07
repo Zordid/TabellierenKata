@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 class CsvTabelliererFromFileTest {
     private CsvTabellierer tabellierer = new CsvTabellierer();
 
-    //@Test
+    @Test
     void sanityTest() throws IOException {
         // given
         Charset utf8 = StandardCharsets.UTF_8;
