@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 class CsvTabelliererTest {
     private CsvTabellierer tabellierer = new CsvTabellierer();
 
-    //@Test
+    @Test
     void sanityTest() {
         // given
         String[] eingabeZeilen = new String[]{
