@@ -14,24 +14,22 @@ public class CsvTabellierer {
         if (eingabeZeilen.isEmpty())
             return Collections.emptyList();
 
-        Stream<String> header = eingabeZeilen.stream().limit(1);
-        Stream<String> data = eingabeZeilen.stream().skip(1);
-
         int[] columnWidths = detectColumnWidths(eingabeZeilen);
 
-        List<String> result = new ArrayList<>();
+        String header = eingabeZeilen.iterator().next();
+        Stream<String> data = eingabeZeilen.stream().skip(1);
 
-        result.add(generateDataRow(columnWidths, eingabeZeilen.iterator().next()));
+        List<String> result = new ArrayList<>();
+        result.add(generateDataRow(columnWidths, header));
         result.add(generateDividerRow(columnWidths));
         result.addAll(data.map(s -> generateDataRow(columnWidths, s)).collect(Collectors.toList()));
-
         return result;
     }
 
     private static int[] detectColumnWidths(Collection<String> data) {
-        int columns = data.stream().mapToInt(s -> s.split(DELIMITER).length).max().orElse(0);
+        int numberOfColumns = data.stream().mapToInt(s -> s.split(DELIMITER).length).max().orElse(0);
         Stream<int[]> lengths = data.stream().map(s -> Arrays.stream(s.split(DELIMITER)).mapToInt(String::length).toArray());
-        return lengths.reduce(new int[columns], CsvTabellierer::max);
+        return lengths.reduce(new int[numberOfColumns], CsvTabellierer::max);
     }
 
     private static int[] max(int[] a, int[] b) {
