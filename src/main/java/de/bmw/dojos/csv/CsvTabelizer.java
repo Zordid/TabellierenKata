@@ -1,4 +1,4 @@
-package de.lv1871.dojos.csv;
+package de.bmw.dojos.csv;
 
 import com.codepoetics.protonpack.StreamUtils;
 
@@ -6,18 +6,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CsvTabellierer {
+public class CsvTabelizer {
 
     private static final String DELIMITER = ";";
 
-    public Collection<String> tabelliere(Collection<String> eingabeZeilen) {
-        if (eingabeZeilen.isEmpty())
+    public Collection<String> toTable(Collection<String> input) {
+        if (input.isEmpty())
             return Collections.emptyList();
 
-        int[] columnWidths = detectColumnWidths(eingabeZeilen);
+        int[] columnWidths = detectColumnWidths(input);
 
-        String header = eingabeZeilen.iterator().next();
-        Stream<String> data = eingabeZeilen.stream().skip(1);
+        String header = input.iterator().next();
+        Stream<String> data = input.stream().skip(1);
 
         List<String> result = new ArrayList<>();
         result.add(generateDataRow(columnWidths, header));
@@ -29,7 +29,7 @@ public class CsvTabellierer {
     private static int[] detectColumnWidths(Collection<String> data) {
         int numberOfColumns = data.stream().mapToInt(s -> s.split(DELIMITER).length).max().orElse(0);
         Stream<int[]> lengths = data.stream().map(s -> Arrays.stream(s.split(DELIMITER)).mapToInt(String::length).toArray());
-        return lengths.reduce(new int[numberOfColumns], CsvTabellierer::max);
+        return lengths.reduce(new int[numberOfColumns], CsvTabelizer::max);
     }
 
     private static int[] max(int[] a, int[] b) {
@@ -60,7 +60,7 @@ public class CsvTabellierer {
 
     private static String generateDividerRow(int[] columnWidths) {
         return joinWith(Arrays.stream(columnWidths)
-                .mapToObj(CsvTabellierer::dashes), "+");
+                .mapToObj(CsvTabelizer::dashes), "+");
 
     }
 
@@ -72,7 +72,5 @@ public class CsvTabellierer {
         return new String(new char[count]).replace('\0', '-');
     }
 
-    public String[] tabelliere(String[] eingabeZeilen) {
-        return tabelliere(Arrays.asList(eingabeZeilen)).toArray(new String[0]);
-    }
 }
+
